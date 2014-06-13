@@ -12,6 +12,8 @@ pid_filter_t *pid_create(void)
 {
     pid_filter_t *pid;
     pid = malloc(sizeof(pid_filter_t));
+
+    pid_set_gains(pid, 1., 0., 0.);
     pid->integrator = 0;
     return pid;
 }

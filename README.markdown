@@ -4,7 +4,7 @@ This modules implements a PID filter in parallel form for use in various control
 
 ## Usage
 ```cpp
-pid_t *pid = pid_create();
+pid_filter_t *pid = pid_create();
 
 /* PD controller. */
 pid_set_gains(pid, 10., 0, 4.);

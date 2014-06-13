@@ -2,7 +2,9 @@
 #include "pid.h"
 
 struct pid_filter_s {
-
+    float kp;
+    float ki;
+    float kd;
 };
 
 pid_filter_t *pid_create(void)
@@ -15,4 +17,26 @@ pid_filter_t *pid_create(void)
 void pid_delete(pid_filter_t *pid)
 {
     free(pid);
+}
+
+void pid_set_gains(pid_filter_t *pid, float kp, float ki, float kd)
+{
+    pid->kp = kp;
+    pid->ki = ki;
+    pid->kd = kd;
+}
+
+float pid_get_kp(pid_filter_t *pid)
+{
+    return pid->kp;
+}
+
+float pid_get_ki(pid_filter_t *pid)
+{
+    return pid->ki;
+}
+
+float pid_get_kd(pid_filter_t *pid)
+{
+    return pid->kd;
 }

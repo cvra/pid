@@ -19,7 +19,10 @@ TEST_GROUP(PIDTestGroup)
     }
 };
 
-TEST(PIDTestGroup, CanCreatePID)
+TEST(PIDTestGroup, CanSetGains)
 {
-    pid = pid_create();
+    pid_set_gains(pid, 10., 20., 30.);
+    CHECK_EQUAL(10., pid_get_kp(pid));
+    CHECK_EQUAL(20., pid_get_ki(pid));
+    CHECK_EQUAL(30., pid_get_kd(pid));
 }

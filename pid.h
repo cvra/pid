@@ -21,4 +21,7 @@ float pid_get_ki(pid_filter_t *pid);
 /** Returns the derivative gain of the controller. */
 float pid_get_kd(pid_filter_t *pid);
 
+/** Returns the value of the PID integrator. */
+float pid_get_integral(pid_filter_t *pid);
+
 #endif

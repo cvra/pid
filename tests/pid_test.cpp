@@ -19,6 +19,11 @@ TEST_GROUP(PIDTestGroup)
     }
 };
 
+TEST(PIDTestGroup, IntegralValueIsZeroAtInit)
+{
+    CHECK_EQUAL(0, pid_get_integral(pid));
+}
+
 TEST(PIDTestGroup, CanSetGains)
 {
     pid_set_gains(pid, 10., 20., 30.);

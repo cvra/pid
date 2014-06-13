@@ -5,12 +5,14 @@ struct pid_filter_s {
     float kp;
     float ki;
     float kd;
+    float integrator;
 };
 
 pid_filter_t *pid_create(void)
 {
     pid_filter_t *pid;
     pid = malloc(sizeof(pid_filter_t));
+    pid->integrator = 0;
     return pid;
 }
 
@@ -39,4 +41,9 @@ float pid_get_ki(pid_filter_t *pid)
 float pid_get_kd(pid_filter_t *pid)
 {
     return pid->kd;
+}
+
+float pid_get_integral(pid_filter_t *pid)
+{
+    return pid->integrator;
 }

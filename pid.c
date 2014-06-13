@@ -6,6 +6,7 @@ struct pid_filter_s {
     float ki;
     float kd;
     float integrator;
+    float previous_value;
 };
 
 pid_filter_t *pid_create(void)
@@ -14,7 +15,8 @@ pid_filter_t *pid_create(void)
     pid = malloc(sizeof(pid_filter_t));
 
     pid_set_gains(pid, 1., 0., 0.);
-    pid->integrator = 0;
+    pid->integrator = 0.;
+    pid->previous_value = 0.;
     return pid;
 }
 
@@ -48,4 +50,17 @@ float pid_get_kd(const pid_filter_t *pid)
 float pid_get_integral(const pid_filter_t *pid)
 {
     return pid->integrator;
+}
+
+float pid_process(pid_filter_t *pid, float value)
+{
+    float output;
+    pid->integrator += value;
+
+    output  = pid->kp * value;
+    output += pid->ki * pid->integrator;
+    output += pid->kd * (value - pid->previous_value);
+
+    pid->previous_value = value;
+    return output;
 }

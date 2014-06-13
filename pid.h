@@ -24,4 +24,7 @@ float pid_get_kd(const pid_filter_t *pid);
 /** Returns the value of the PID integrator. */
 float pid_get_integral(const pid_filter_t *pid);
 
+/** Process one step if the PID algorithm. */
+float pid_process(pid_filter_t *pid, float value);
+
 #endif

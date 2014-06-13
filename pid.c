@@ -28,22 +28,22 @@ void pid_set_gains(pid_filter_t *pid, float kp, float ki, float kd)
     pid->kd = kd;
 }
 
-float pid_get_kp(pid_filter_t *pid)
+float pid_get_kp(const pid_filter_t *pid)
 {
     return pid->kp;
 }
 
-float pid_get_ki(pid_filter_t *pid)
+float pid_get_ki(const pid_filter_t *pid)
 {
     return pid->ki;
 }
 
-float pid_get_kd(pid_filter_t *pid)
+float pid_get_kd(const pid_filter_t *pid)
 {
     return pid->kd;
 }
 
-float pid_get_integral(pid_filter_t *pid)
+float pid_get_integral(const pid_filter_t *pid)
 {
     return pid->integrator;
 }

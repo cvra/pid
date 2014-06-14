@@ -2,6 +2,10 @@
 [![Build Status](https://travis-ci.org/cvra/pid.png)](https://travis-ci.org/cvra/pid)
 
 This modules implements a PID filter in parallel form for use in various control loops.
+It has the following features :
+
+* Discrete PID in parallel form.
+* Maximum integrator value (ARW).
 
 
 ## Usage

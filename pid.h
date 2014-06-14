@@ -27,4 +27,7 @@ float pid_get_integral(const pid_filter_t *pid);
 /** Process one step if the PID algorithm. */
 float pid_process(pid_filter_t *pid, float value);
 
+/** Sets a maximum value for the PID integrator. */
+void pid_set_integral_limit(pid_filter_t *pid, float max);
+
 #endif

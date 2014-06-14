@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <math.h>
 #include "pid.h"
 
 struct pid_filter_s {
@@ -7,6 +8,7 @@ struct pid_filter_s {
     float kd;
     float integrator;
     float previous_value;
+    float integrator_limit;
 };
 
 pid_filter_t *pid_create(void)
@@ -17,6 +19,7 @@ pid_filter_t *pid_create(void)
     pid_set_gains(pid, 1., 0., 0.);
     pid->integrator = 0.;
     pid->previous_value = 0.;
+    pid->integrator_limit = INFINITY;
     return pid;
 }
 
@@ -57,10 +60,22 @@ float pid_process(pid_filter_t *pid, float value)
     float output;
     pid->integrator += value;
 
+    if (pid->integrator > pid->integrator_limit) {
+        pid->integrator = pid->integrator_limit;
+    } else if (pid->integrator < -pid->integrator_limit) {
+        pid->integrator = -pid->integrator_limit;
+    }
+
     output  = pid->kp * value;
     output += pid->ki * pid->integrator;
+
     output += pid->kd * (value - pid->previous_value);
 
     pid->previous_value = value;
     return output;
+}
+
+void pid_set_integral_limit(pid_filter_t *pid, float max)
+{
+    pid->integrator_limit = max;
 }

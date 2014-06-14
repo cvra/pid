@@ -79,3 +79,8 @@ void pid_set_integral_limit(pid_filter_t *pid, float max)
 {
     pid->integrator_limit = max;
 }
+
+void pid_reset_integral(pid_filter_t *pid)
+{
+    pid->integrator = 0.;
+}

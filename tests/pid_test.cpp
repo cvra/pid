@@ -107,3 +107,12 @@ TEST(PIDTestGroup, IntegratorMaxValueWorksInNegativeToo)
     DOUBLES_EQUAL(-20., pid_process(pid, -20.), 1e-3);
 }
 
+TEST(PIDTestGroup, CanResetIntegrator)
+{
+    pid_set_gains(pid, 0., 1., 0.);
+    DOUBLES_EQUAL(20., pid_process(pid, 20.), 1e-3);
+    DOUBLES_EQUAL(40., pid_process(pid, 20.), 1e-3);
+    pid_reset_integral(pid);
+    DOUBLES_EQUAL(20., pid_process(pid, 20.), 1e-3);
+}
+

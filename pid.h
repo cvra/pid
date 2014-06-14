@@ -1,13 +1,22 @@
 #ifndef PID_H_
 #define PID_H_
 
-typedef struct pid_filter_s pid_filter_t;
+/** Instance of a PID controller.
+ *
+ * @note This structure is only public to be able to do static allocation of it.
+ * Do not access its fields directly.
+ */
+typedef struct {
+    float kp;
+    float ki;
+    float kd;
+    float integrator;
+    float previous_value;
+    float integrator_limit;
+} pid_filter_t;
 
-/** Allocates the memory for a PID filter. */
-pid_filter_t *pid_create(void);
-
-/** Frees the memory used by a PID filter. */
-void pid_delete(pid_filter_t *pid);
+/** Initializes a PID controller. */
+void pid_init(pid_filter_t *pid);
 
 /** Sets the gains of the given PID. */
 void pid_set_gains(pid_filter_t *pid, float kp, float ki, float kd);

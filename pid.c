@@ -11,10 +11,6 @@ void pid_init(pid_filter_t *pid)
     pid->integrator_limit = INFINITY;
 }
 
-void pid_delete(pid_filter_t *pid)
-{
-}
-
 void pid_set_gains(pid_filter_t *pid, float kp, float ki, float kd)
 {
     pid->kp = kp;

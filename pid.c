@@ -2,30 +2,13 @@
 #include <math.h>
 #include "pid.h"
 
-struct pid_filter_s {
-    float kp;
-    float ki;
-    float kd;
-    float integrator;
-    float previous_value;
-    float integrator_limit;
-};
 
-pid_filter_t *pid_create(void)
+void pid_init(pid_filter_t *pid)
 {
-    pid_filter_t *pid;
-    pid = malloc(sizeof(pid_filter_t));
-
     pid_set_gains(pid, 1., 0., 0.);
     pid->integrator = 0.;
     pid->previous_value = 0.;
     pid->integrator_limit = INFINITY;
-    return pid;
-}
-
-void pid_delete(pid_filter_t *pid)
-{
-    free(pid);
 }
 
 void pid_set_gains(pid_filter_t *pid, float kp, float ki, float kd)

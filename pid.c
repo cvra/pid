@@ -9,6 +9,7 @@ void pid_init(pid_filter_t *pid)
     pid->integrator = 0.;
     pid->previous_value = 0.;
     pid->integrator_limit = INFINITY;
+    pid->frequency = 1.;
 }
 
 void pid_set_gains(pid_filter_t *pid, float kp, float ki, float kd)
@@ -50,9 +51,8 @@ float pid_process(pid_filter_t *pid, float value)
     }
 
     output  = pid->kp * value;
-    output += pid->ki * pid->integrator;
-
-    output += pid->kd * (value - pid->previous_value);
+    output += pid->ki * pid->integrator / pid->frequency;
+    output += pid->kd * (value - pid->previous_value) * pid->frequency;
 
     pid->previous_value = value;
     return output;
@@ -66,4 +66,9 @@ void pid_set_integral_limit(pid_filter_t *pid, float max)
 void pid_reset_integral(pid_filter_t *pid)
 {
     pid->integrator = 0.;
+}
+
+void pid_set_frequency(pid_filter_t *pid, float frequency)
+{
+    pid->frequency = frequency;
 }

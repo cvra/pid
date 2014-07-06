@@ -7,7 +7,15 @@ extern "C" {
 TEST_GROUP(PIDTestGroup)
 {
     pid_filter_t pid;
-    float output;
+
+    /** Processes a given input in the PID filter and compares it against
+     * expected output. */
+    void process_and_expect(float input, float expected_output)
+    {
+        float output;
+        output = pid_process(&pid, input);
+        DOUBLES_EQUAL(expected_output, output, 1e-3);
+    }
 
     void setup(void)
     {
@@ -37,21 +45,18 @@ TEST(PIDTestGroup, CanSetGains)
 
 TEST(PIDTestGroup, ZeroErrorMakesForZeroOutput)
 {
-    output = pid_process(&pid, 0.);
-    CHECK_EQUAL(0, output);
+    process_and_expect(0., 0.);
 }
 
 TEST(PIDTestGroup, ByDefaultIsIdentity)
 {
-    output = pid_process(&pid, 42.);
-    CHECK_EQUAL(42., output);
+    process_and_expect(42., 42.);
 }
 
 TEST(PIDTestGroup, KpHasInfluenceOnOutput)
 {
     pid_set_gains(&pid, 2., 0., 0.);
-    output = pid_process(&pid, 21.);
-    CHECK_EQUAL(42., output);
+    process_and_expect(21., 42.);
 }
 
 TEST(PIDTestGroup, IntegratorIsChangedByProcess)
@@ -66,31 +71,30 @@ TEST(PIDTestGroup, IntegratorIsChangedByProcess)
 TEST(PIDTestGroup, AddingKiMakesOutputIncrease)
 {
     pid_set_gains(&pid, 0., 2., 0.);
-    DOUBLES_EQUAL(2*42., pid_process(&pid, 42.), 1e-3);
-    DOUBLES_EQUAL(2*84., pid_process(&pid, 42.), 1e-3);
+    process_and_expect(42., 84.);
+    process_and_expect(42., 168.);
 }
 
 TEST(PIDTestGroup, IntegratorWorksInNegativeToo)
 {
     pid_set_gains(&pid, 0., 1., 0.);
-    DOUBLES_EQUAL(-42., pid_process(&pid, -42.), 1e-3);
-    DOUBLES_EQUAL(-84., pid_process(&pid, -42.), 1e-3);
+    process_and_expect(-42., -42.);
+    process_and_expect(-42., -84.);
 }
 
 TEST(PIDTestGroup, AddingKdCreatesDerivativeAction)
 {
     pid_set_gains(&pid, 0., 0., 2.);
-    DOUBLES_EQUAL(84., pid_process(&pid, 42.), 1e-3);
-    DOUBLES_EQUAL(0., pid_process(&pid, 42.), 1e-3);
+    process_and_expect(42., 84.);
+    process_and_expect(42., 0);
 }
 
 TEST(PIDTestGroup, IntegratorMaxValueIsRespected)
 {
     pid_set_integral_limit(&pid, 20.);
     pid_set_gains(&pid, 0., 1., 0.);
-
-    DOUBLES_EQUAL(20., pid_process(&pid, 20.), 1e-3);
-    DOUBLES_EQUAL(20., pid_process(&pid, 20.), 1e-3);
+    process_and_expect(20., 20.);
+    process_and_expect(20., 20.);
 }
 
 TEST(PIDTestGroup, IntegratorMaxValueWorksInNegativeToo)
@@ -98,32 +102,33 @@ TEST(PIDTestGroup, IntegratorMaxValueWorksInNegativeToo)
     pid_set_integral_limit(&pid, 20.);
     pid_set_gains(&pid, 0., 1., 0.);
 
-    DOUBLES_EQUAL(-20., pid_process(&pid, -20.), 1e-3);
-    DOUBLES_EQUAL(-20., pid_process(&pid, -20.), 1e-3);
+    process_and_expect(-20., -20.);
+    process_and_expect(-20., -20.);
 }
 
 TEST(PIDTestGroup, CanResetIntegrator)
 {
     pid_set_gains(&pid, 0., 1., 0.);
-    DOUBLES_EQUAL(20., pid_process(&pid, 20.), 1e-3);
-    DOUBLES_EQUAL(40., pid_process(&pid, 20.), 1e-3);
+    process_and_expect(20., 20.);
+    process_and_expect(20., 40.);
+
     pid_reset_integral(&pid);
-    DOUBLES_EQUAL(20., pid_process(&pid, 20.), 1e-3);
+    process_and_expect(20., 20.);
 }
 
 TEST(PIDTestGroup, FrequencyChangeIntegrator)
 {
     pid_set_frequency(&pid, 10.);
     pid_set_gains(&pid, 0., 1., 0.);
-    DOUBLES_EQUAL(2., pid_process(&pid, 20.), 1e-3);
-    DOUBLES_EQUAL(4., pid_process(&pid, 20.), 1e-3);
+    process_and_expect(20., 2.);
+    process_and_expect(20., 4.);
 }
 
 TEST(PIDTestGroup, FrequencyChangeDerivative)
 {
     pid_set_frequency(&pid, 10.);
     pid_set_gains(&pid, 0., 0., 1.);
-    DOUBLES_EQUAL(200., pid_process(&pid, 20.), 1e-3);
-    DOUBLES_EQUAL(0., pid_process(&pid, 20.), 1e-3);
+    process_and_expect(20., 200.);
+    process_and_expect(20., 0.);
 }
 

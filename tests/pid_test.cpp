@@ -111,3 +111,19 @@ TEST(PIDTestGroup, CanResetIntegrator)
     DOUBLES_EQUAL(20., pid_process(&pid, 20.), 1e-3);
 }
 
+TEST(PIDTestGroup, FrequencyChangeIntegrator)
+{
+    pid_set_frequency(&pid, 10.);
+    pid_set_gains(&pid, 0., 1., 0.);
+    DOUBLES_EQUAL(2., pid_process(&pid, 20.), 1e-3);
+    DOUBLES_EQUAL(4., pid_process(&pid, 20.), 1e-3);
+}
+
+TEST(PIDTestGroup, FrequencyChangeDerivative)
+{
+    pid_set_frequency(&pid, 10.);
+    pid_set_gains(&pid, 0., 0., 1.);
+    DOUBLES_EQUAL(200., pid_process(&pid, 20.), 1e-3);
+    DOUBLES_EQUAL(0., pid_process(&pid, 20.), 1e-3);
+}
+

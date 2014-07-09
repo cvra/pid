@@ -25,5 +25,7 @@
 *.x86_64
 *.hex
 
-# CMake build products
+# Build scripts and directories
+CMakeLists.txt
 build/*
+dependencies/*

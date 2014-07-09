@@ -1,0 +1,9 @@
+depends:
+    - test-runner
+
+source:
+    - pid.c
+
+tests:
+    - tests/pid_test.cpp
+

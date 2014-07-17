@@ -30,17 +30,34 @@ TEST(PIDTestGroup, IntegralValueIsZeroAtInit)
 
 TEST(PIDTestGroup, PControllerAtInit)
 {
-    CHECK_EQUAL(1., pid_get_kp(&pid));
-    CHECK_EQUAL(0., pid_get_ki(&pid));
-    CHECK_EQUAL(0., pid_get_kd(&pid));
+    float kp,ki,kd;
+    pid_get_gains(&pid,&kp,&ki,&kd);
+    CHECK_EQUAL(1., kp);
+    CHECK_EQUAL(0., ki);
+    CHECK_EQUAL(0., kd);
+    CHECK_EQUAL(1., pid_get_frequency(&pid))
 }
 
 TEST(PIDTestGroup, CanSetGains)
 {
+    float kp,ki,kd;
     pid_set_gains(&pid, 10., 20., 30.);
-    CHECK_EQUAL(10., pid_get_kp(&pid));
-    CHECK_EQUAL(20., pid_get_ki(&pid));
-    CHECK_EQUAL(30., pid_get_kd(&pid));
+    pid_get_gains(&pid,&kp,&ki,&kd);
+    CHECK_EQUAL(10., kp);
+    CHECK_EQUAL(20., ki);
+    CHECK_EQUAL(30., kd);
+}
+
+TEST(PIDTestGroup, CanSetLimit)
+{
+    pid_set_integral_limit(&pid,100.);
+    CHECK_EQUAL(100., pid_get_integral_limit(&pid));
+}
+
+TEST(PIDTestGroup, CanSetFrequency)
+{
+    pid_set_frequency(&pid,100.);
+    CHECK_EQUAL(100., pid_get_frequency(&pid));
 }
 
 TEST(PIDTestGroup, ZeroErrorMakesForZeroOutput)

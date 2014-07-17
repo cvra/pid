@@ -19,19 +19,16 @@ void pid_set_gains(pid_filter_t *pid, float kp, float ki, float kd)
     pid->kd = kd;
 }
 
-float pid_get_kp(const pid_filter_t *pid)
+void pid_get_gains(const pid_filter_t *pid, float *kp, float *ki, float *kd)
 {
-    return pid->kp;
+    *kp = pid->kp;
+    *ki = pid->ki;
+    *kd = pid->kd;
 }
 
-float pid_get_ki(const pid_filter_t *pid)
+float pid_get_integral_limit(const pid_filter_t *pid)
 {
-    return pid->ki;
-}
-
-float pid_get_kd(const pid_filter_t *pid)
-{
-    return pid->kd;
+    return pid->integrator_limit;
 }
 
 float pid_get_integral(const pid_filter_t *pid)
@@ -71,4 +68,9 @@ void pid_reset_integral(pid_filter_t *pid)
 void pid_set_frequency(pid_filter_t *pid, float frequency)
 {
     pid->frequency = frequency;
+}
+
+float pid_get_frequency(const pid_filter_t *pid)
+{
+    return pid->frequency;
 }

@@ -22,14 +22,11 @@ void pid_init(pid_filter_t *pid);
 /** Sets the gains of the given PID. */
 void pid_set_gains(pid_filter_t *pid, float kp, float ki, float kd);
 
-/** Returns the proportional gain of the controller. */
-float pid_get_kp(const pid_filter_t *pid);
+/** Returns the proportional gains of the controller. */
+void pid_get_gains(const pid_filter_t *pid, float *kp, float *ki, float *kd);
 
-/** Returns the integral gain of the controller. */
-float pid_get_ki(const pid_filter_t *pid);
-
-/** Returns the derivative gain of the controller. */
-float pid_get_kd(const pid_filter_t *pid);
+/** Returns the limit of the PID integrator. */
+float pid_get_integral_limit(const pid_filter_t *pid);
 
 /** Returns the value of the PID integrator. */
 float pid_get_integral(const pid_filter_t *pid);
@@ -45,5 +42,8 @@ void pid_reset_integral(pid_filter_t *pid);
 
 /** Sets the PID frequency for gain compensation. */
 void pid_set_frequency(pid_filter_t *pid, float frequency);
+
+/** Gets the PID frequency for gain compensation. */
+float pid_get_frequency(const pid_filter_t *pid);
 
 #endif

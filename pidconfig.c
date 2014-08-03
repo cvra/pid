@@ -9,9 +9,6 @@
 /** Initializes a PID configuration manager. */
 void pidcfg_init(pid_config_t *pid_config, pid_filter_t *pid)
 {
-    assert(pid_config != NULL);
-    assert(pid != NULL);
-
     // next config
     pid_get_gains(pid, &(pid_config->kp), &(pid_config->ki), &(pid_config->kd));
     pid_config->integrator_limit = pid_get_integral_limit(pid);

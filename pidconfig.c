@@ -63,11 +63,11 @@ void pidcfg_set_frequency(pid_config_t *pid_config, float frequency)
     CRITICAL_SECTION_EXIT();
 }
 
-/** Transfer configuration to PID (thread-safe) */ 
+/** Transfer configuration to PID (thread-safe) */
 void pidcfg_apply(pid_config_t *cfg)
 {
     CRITICAL_SECTION_ALLOC();
-    
+
     // check if something to apply
     if( !cfg->has_update ) {
         return;
@@ -93,7 +93,7 @@ void pidcfg_get_gains(pid_config_t *pid_cfg, float *kp, float *ki, float *kd)
     *kp = pid_cfg->kp;
     *ki = pid_cfg->ki;
     *kd = pid_cfg->kd;
-    
+
     CRITICAL_SECTION_EXIT();
 }
 
@@ -123,6 +123,6 @@ float pidcfg_get_frequency(pid_config_t *pid_cfg)
     freq = pid_cfg->frequency;
 
     CRITICAL_SECTION_EXIT();
-    
+
     return freq;
 }

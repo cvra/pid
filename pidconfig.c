@@ -13,7 +13,7 @@ void pidcfg_init(pid_config_t *pid_config, pid_filter_t *pid)
     assert(pid != NULL);
 
     // next config
-    pid_get_gains(pid,&(pid_config->kp),&(pid_config->ki),&(pid_config->kd));
+    pid_get_gains(pid, &(pid_config->kp), &(pid_config->ki), &(pid_config->kd));
     pid_config->integrator_limit = pid_get_integral_limit(pid);
     pid_config->frequency = pid_get_frequency(pid);
 
@@ -69,15 +69,15 @@ void pidcfg_apply(pid_config_t *cfg)
     CRITICAL_SECTION_ALLOC();
 
     // check if something to apply
-    if( !cfg->has_update ) {
+    if (!cfg->has_update) {
         return;
     }
 
     CRITICAL_SECTION_ENTER();
 
-    pid_set_gains(cfg->target_pid,cfg->kp,cfg->ki,cfg->kd);
-    pid_set_integral_limit(cfg->target_pid,cfg->integrator_limit);
-    pid_set_frequency(cfg->target_pid,cfg->frequency);
+    pid_set_gains(cfg->target_pid, cfg->kp, cfg->ki, cfg->kd);
+    pid_set_integral_limit(cfg->target_pid, cfg->integrator_limit);
+    pid_set_frequency(cfg->target_pid, cfg->frequency);
 
     cfg->has_update = false;
 

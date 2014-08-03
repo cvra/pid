@@ -7,6 +7,7 @@ before_install:
     - sudo pip install pyaml jinja2
     - git clone https://github.com/cpputest/cpputest ../cpputest
     - pushd ../cpputest
+    - autoreconf
     - ./configure
     - make
     - sudo make install
@@ -19,7 +20,6 @@ before_script:
     - mkdir build/
     - cd build/
     - cmake ..
-    - make
 
 script: 
     - make

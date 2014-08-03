@@ -1,9 +1,12 @@
 depends:
     - test-runner
+    - platform-abstraction
 
 source:
     - pid.c
+    - pidconfig.c
 
 tests:
     - tests/pid_test.cpp
+    - tests/pid_config_test.cpp
 

@@ -36,7 +36,7 @@ void pidcfg_set_integral_limit(pid_config_t *pid_config, float max);
 /** Sets the PID frequency for gain compensation. */
 void pidcfg_set_frequency(pid_config_t *pid_config, float frequency);
 
-/** Transfers configuration to PID */ 
+/** Transfers configuration to PID */
 void pidcfg_apply(pid_config_t *pid_config);
 
 /** Get the current gains of the PID config */

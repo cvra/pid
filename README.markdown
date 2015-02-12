@@ -17,7 +17,7 @@ pid_init(&pid);
 pid_set_gains(&pid, 10., 0, 4.);
 
 while (1) {
-    error = consign - motor_position;
+    error = setpoint - motor_position;
     motor_pwm = pid_process(&pid, error);
 }
 

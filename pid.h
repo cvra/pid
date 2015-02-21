@@ -11,7 +11,7 @@ typedef struct {
     float ki;
     float kd;
     float integrator;
-    float previous_value;
+    float previous_error;
     float integrator_limit;
     float frequency;
 } pid_filter_t;
@@ -32,7 +32,7 @@ float pid_get_integral_limit(const pid_filter_t *pid);
 float pid_get_integral(const pid_filter_t *pid);
 
 /** Process one step if the PID algorithm. */
-float pid_process(pid_filter_t *pid, float value);
+float pid_process(pid_filter_t *pid, float error);
 
 /** Sets a maximum value for the PID integrator. */
 void pid_set_integral_limit(pid_filter_t *pid, float max);

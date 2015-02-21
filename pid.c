@@ -7,7 +7,7 @@ void pid_init(pid_filter_t *pid)
 {
     pid_set_gains(pid, 1., 0., 0.);
     pid->integrator = 0.;
-    pid->previous_value = 0.;
+    pid->previous_error = 0.;
     pid->integrator_limit = INFINITY;
     pid->frequency = 1.;
 }
@@ -36,10 +36,10 @@ float pid_get_integral(const pid_filter_t *pid)
     return pid->integrator;
 }
 
-float pid_process(pid_filter_t *pid, float value)
+float pid_process(pid_filter_t *pid, float error)
 {
     float output;
-    pid->integrator += value;
+    pid->integrator += error;
 
     if (pid->integrator > pid->integrator_limit) {
         pid->integrator = pid->integrator_limit;
@@ -47,11 +47,11 @@ float pid_process(pid_filter_t *pid, float value)
         pid->integrator = -pid->integrator_limit;
     }
 
-    output  = pid->kp * value;
+    output  = pid->kp * error;
     output += pid->ki * pid->integrator / pid->frequency;
-    output += pid->kd * (value - pid->previous_value) * pid->frequency;
+    output += pid->kd * (error - pid->previous_error) * pid->frequency;
 
-    pid->previous_value = value;
+    pid->previous_error = error;
     return output;
 }
 

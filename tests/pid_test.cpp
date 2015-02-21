@@ -6,9 +6,9 @@ extern "C" {
 
 TEST_GROUP(PIDTestGroup)
 {
-    pid_filter_t pid;
+    pid_ctrl_t pid;
 
-    /** Processes a given input in the PID filter and compares it against
+    /** Processes a given input in the PID controller and compares it against
      * expected output. */
     void process_and_expect(float input, float expected_output)
     {

@@ -14,36 +14,36 @@ typedef struct {
     float previous_error;
     float integrator_limit;
     float frequency;
-} pid_filter_t;
+} pid_ctrl_t;
 
 /** Initializes a PID controller. */
-void pid_init(pid_filter_t *pid);
+void pid_init(pid_ctrl_t *pid);
 
 /** Sets the gains of the given PID. */
-void pid_set_gains(pid_filter_t *pid, float kp, float ki, float kd);
+void pid_set_gains(pid_ctrl_t *pid, float kp, float ki, float kd);
 
 /** Returns the proportional gains of the controller. */
-void pid_get_gains(const pid_filter_t *pid, float *kp, float *ki, float *kd);
+void pid_get_gains(const pid_ctrl_t *pid, float *kp, float *ki, float *kd);
 
 /** Returns the limit of the PID integrator. */
-float pid_get_integral_limit(const pid_filter_t *pid);
+float pid_get_integral_limit(const pid_ctrl_t *pid);
 
 /** Returns the value of the PID integrator. */
-float pid_get_integral(const pid_filter_t *pid);
+float pid_get_integral(const pid_ctrl_t *pid);
 
 /** Process one step if the PID algorithm. */
-float pid_process(pid_filter_t *pid, float error);
+float pid_process(pid_ctrl_t *pid, float error);
 
 /** Sets a maximum value for the PID integrator. */
-void pid_set_integral_limit(pid_filter_t *pid, float max);
+void pid_set_integral_limit(pid_ctrl_t *pid, float max);
 
 /** Resets the PID integrator to zero. */
-void pid_reset_integral(pid_filter_t *pid);
+void pid_reset_integral(pid_ctrl_t *pid);
 
 /** Sets the PID frequency for gain compensation. */
-void pid_set_frequency(pid_filter_t *pid, float frequency);
+void pid_set_frequency(pid_ctrl_t *pid, float frequency);
 
 /** Gets the PID frequency for gain compensation. */
-float pid_get_frequency(const pid_filter_t *pid);
+float pid_get_frequency(const pid_ctrl_t *pid);
 
 #endif

@@ -47,9 +47,9 @@ float pid_process(pid_filter_t *pid, float error)
         pid->integrator = -pid->integrator_limit;
     }
 
-    output  = pid->kp * error;
-    output += pid->ki * pid->integrator / pid->frequency;
-    output += pid->kd * (error - pid->previous_error) * pid->frequency;
+    output  = - pid->kp * error;
+    output += - pid->ki * pid->integrator / pid->frequency;
+    output += - pid->kd * (error - pid->previous_error) * pid->frequency;
 
     pid->previous_error = error;
     return output;
